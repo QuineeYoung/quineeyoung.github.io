@@ -193,20 +193,166 @@
 					border:4px dashed #98BF21;
 				}
 			}
+			/*兼容Chrome Safari*/
+			@-webkit-keyframes car{
+				from{
+					transform:translateX(0px);
+				}
+				50%{
+					transform:translateX(500px);/*车前进*/
+				}
+				80%{
+					transform:translateX(700px);
+				}
+				to{
+					transform:translateX(780px);
+				}
+			}
+			@-webkit-keyframes wheels{
+				from{
+					transform:rotate(0deg);
+				}
+				to{
+					transform:rotate(360deg);
+				}
+			}
+			@-webkit-keyframes balloon{
+				from{
+					transform:scale(1) rotate(0deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					box-shadow:1px 1px 2px 0px #DC5122;
+				}
+				40%{
+					transform:scale(1.4) rotate(-10deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					box-shadow:1px 1px 2px 1px #DFE532;
+				}
+				75%{
+					transform:scale(1.8) rotate(-18deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					box-shadow:1px 1px 2px 2px #DFE532;
+				}
+				to{
+					transform:scale(1.2) rotate(-24deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					box-shadow:1px 1px 2px 1px #DC5122;
+				}
+			}
+			@-webkit-keyframes shake{
+				from{
+					transform:rotate(0deg);
+					border:4px dashed #98BF21;
+				}
+				25%{
+					transform:rotate(25deg);
+					border:4px dashed #F8E81C;
+				}
+				50%{
+					transform:rotate(0deg);
+					border:4px dashed #FFF;
+				}
+				75%{
+					transform:rotate(-25deg);
+					border:4px dashed #F8E81C;
+				}
+				to{
+					transform:rotate(0deg);
+					border:4px dashed #98BF21;
+				}
+			}
+			/*兼容Firefox*/
+			@-moz-keyframes car{
+				from{
+					transform:translateX(0px);
+				}
+				50%{
+					transform:translateX(500px);/*车前进*/
+				}
+				80%{
+					transform:translateX(700px);
+				}
+				to{
+					transform:translateX(780px);
+				}
+			}
+			@-moz-keyframes wheels{
+				from{
+					transform:rotate(0deg);
+				}
+				to{
+					transform:rotate(360deg);
+				}
+			}
+			@-moz-keyframes balloon{
+				from{
+					transform:scale(1) rotate(0deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					box-shadow:1px 1px 2px 0px #DC5122;
+				}
+				40%{
+					transform:scale(1.4) rotate(-10deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					box-shadow:1px 1px 2px 1px #DFE532;
+				}
+				75%{
+					transform:scale(1.8) rotate(-18deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					box-shadow:1px 1px 2px 2px #DFE532;
+				}
+				to{
+					transform:scale(1.2) rotate(-24deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					box-shadow:1px 1px 2px 1px #DC5122;
+				}
+			}
+			@-moz-keyframes shake{
+				from{
+					transform:rotate(0deg);
+					border:4px dashed #98BF21;
+				}
+				25%{
+					transform:rotate(25deg);
+					border:4px dashed #F8E81C;
+				}
+				50%{
+					transform:rotate(0deg);
+					border:4px dashed #FFF;
+				}
+				75%{
+					transform:rotate(-25deg);
+					border:4px dashed #F8E81C;
+				}
+				to{
+					transform:rotate(0deg);
+					border:4px dashed #98BF21;
+				}
+			}
 			/*调用动画*/
 			#car_body{
 				animation:car 8s ease-in-out 0s infinite alternate;
 				animation-fill-mode:both;
+				-webkit-animation:car 8s ease-in-out 0s infinite alternate;
+				-webkit-animation-fill-mode:both;
+				-moz-animation:car 8s ease-in-out 0s infinite alternate;
+				-moz-animation-fill-mode:both;
 			}
 			#wheel_1,#wheel_2{
 				animation:wheels 8s linear 0s infinite alternate;
+				-webkit-animation:wheels 8s linear 0s infinite alternate;
+				-moz-animation:wheels 8s linear 0s infinite alternate;
 			}
 			#balloon{
 				animation:balloon 8s ease-out 0s infinite normal;
 				animation-fill-mode:forwards;
+				-webkit-animation:balloon 8s ease-out 0s infinite normal;
+				-webkit-animation-fill-mode:forwards;
+				-moz-animation:balloon 8s ease-out 0s infinite normal;
+				-moz-animation-fill-mode:forwards;
 			}
 			#wishes{
 				animation:shake 2s linear 0s infinite normal;
+				-webkit-animation:shake 2s linear 0s infinite normal;
+				-moz-animation:shake 2s linear 0s infinite normal;
 			}
 		</style>
 		<script>
