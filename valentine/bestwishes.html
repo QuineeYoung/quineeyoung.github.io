@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>暖心宝爸</title>
+		<style type="text/css" rel="stylesheet">
+			canvas#myCanvas{
+				background-color:rgba(255,255,255,0);
+				display:none;
+			}
+			#art_board{
+				width:1000px;
+				height:650px;
+				border:1px solid #EEE;
+				background-color:#EEE;
+				/*
+				background-image:linear-gradient(#888 0%,#555 100%);
+				background-image:-moz-linear-gradient(#888 0%,#555 100%);
+				background-image:-webkit-linear-gradient(#888 0%,#555 100%);
+				background-image:-ms-linear-gradient(#888 0%,#555 100%);
+				*/
+				border-radius:4px;
+				margin:auto;
+				position:relative;
+			}
+			/*画一辆车*/
+			#car_body{
+				width:380px;
+				height:135px;
+				background-color:#F8E81C;
+				box-shadow:1px 1px 4px 0px #98B421;
+				border-radius:164px 195px 2px 2px;
+				position:absolute;
+				bottom:80px;
+				left:-80px;
+			}
+			#wheel_1,#wheel_2{
+				width:80px;
+				height:80px;
+				border-radius:50%;
+				background-image:radial-gradient(40px,#888 0%,#555 100%);
+				background-image:-moz-radial-gradient(40px,#888 0%,#555 100%);
+				background-image:-webkit-radial-gradient(40px,#888 0%,#555 100%);
+				background-image:-ms-radial-gradient(40px,#888 0%,#555 100%);
+				box-shadow:1px 1px 4px 0px #EEE;
+				border:2px dashed #111;
+				position:absolute;
+				bottom:-40px;
+			}
+			#wheel_1{
+				left:25px;
+			}
+			#wheel_2{
+				right:25px;
+			}
+			#headLight{
+				width:20px;
+				height:30px;
+				border-radius:50%;
+				background-image:linear-gradient(85deg,#DDD 0%,#EEE 20%,#FFF 100%);
+				background-image:-moz-linear-gradient(85deg,#DDD 0%,#EEE 20%,#FFF 100%);
+				background-image:-webkit-linear-gradient(85deg,#DDD 0%,#EEE 20%,#FFF 100%);
+				background-image:-ms-linear-gradient(85deg,#DDD 0%,#EEE 20%,#FFF 100%);
+				position:absolute;
+				bottom:5px;
+				right:-6px;
+			}
+			/*车上的人*/
+			#baymax{
+				width:115px;
+				height:180px;
+				position:absolute;
+				left:105px;
+				bottom:40px;
+				background:#EEE;
+			}
+			img#myImg{
+				position:absolute;
+				left:-10px;
+				bottom:0px;
+				border:5px solid #EEE;
+				border-right:4px solid #EEE;
+				border-radius:6px;
+			}
+			
+			/*气球*/
+			.balloon{
+				width:86px;
+				height:100px;
+				border-radius:50%;
+				background:#DC5122;
+				box-shadow:1px 1px 2px 0px #DC5122;
+				position:absolute;
+				left:350px;
+				text-align:center;
+				line-height:100px;
+				z-index:10;
+				transform-origin:43px 100px;
+			}
+			.balloon p{
+				font-family:"microsoft yahei";
+				margin:0;
+				padding:0;
+				font-size:18px;
+				color:#FFF;
+			}
+			.balloon p:last-child{
+				cursor:pointer;
+			}
+			.balloon p span{
+				color:#DFE532;
+				font-weight:bolder;
+			}
+			#rope{
+				width:2px;
+				height:200px;
+				background:#222;
+				transform:rotate(-16deg);
+				box-shadow:1px 1px 2px 1px #888;
+				position:absolute;
+				left:130px;
+				bottom:95px;
+				z-index:1;
+			}
+			#wishes{
+				width:350px;
+				height:160px;
+				border:4px dashed #98BF21;
+				background:#97A912;
+				border-radius:8px;
+				position:absolute;
+				top:40px;
+				left:675px;
+				transform-origin:175px 30px;
+			}
+			#wishes>p{
+				font-family:"microsoft yahei";
+				font-size:28px;
+				color:#FFF;
+				width:325px;
+				margin:20px auto;
+			}
+			#wishes>p:last-child{
+				text-align:right;
+			}
+			/*声明动画*/
+			@keyframes car{
+				from{
+					transform:translateX(0px);
+				}
+				50%{
+					transform:translateX(500px);/*车前进*/
+				}
+				80%{
+					transform:translateX(700px);
+				}
+				to{
+					transform:translateX(780px);
+				}
+			}
+			@keyframes wheels{
+				from{
+					transform:rotate(0deg);
+				}
+				to{
+					transform:rotate(360deg);
+				}
+			}
+			@keyframes balloon{
+				from{
+					transform:translateY(380px) scale(0.5) rotate(0deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					box-shadow:1px 1px 2px 0px #DC5122;
+				}
+				40%{
+					transform:translateY(200px) scale(1.4) rotate(-16deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					box-shadow:1px 1px 2px 1px #DFE532;
+				}
+				75%{
+					transform:translateY(60px) scale(1.8) rotate(10deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					box-shadow:1px 1px 2px 2px #DFE532;
+				}
+				to{
+					transform:translateY(0px) scale(1.2) rotate(18deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					box-shadow:1px 1px 2px 1px #DC5122;
+				}
+			}
+			@keyframes shake{
+				from{
+					transform:rotate(0deg);
+					border:4px dashed #98BF21;
+				}
+				25%{
+					transform:rotate(25deg);
+					border:4px dashed #F8E81C;
+				}
+				50%{
+					transform:rotate(0deg);
+					border:4px dashed #FFF;
+				}
+				75%{
+					transform:rotate(-25deg);
+					border:4px dashed #F8E81C;
+				}
+				to{
+					transform:rotate(0deg);
+					border:4px dashed #98BF21;
+				}
+			}
+			/*兼容Chrome Safari*/
+			@-webkit-keyframes car{
+				from{
+					transform:translateX(0px);
+				}
+				50%{
+					transform:translateX(500px);/*车前进*/
+				}
+				80%{
+					transform:translateX(700px);
+				}
+				to{
+					transform:translateX(780px);
+				}
+			}
+			@-webkit-keyframes wheels{
+				from{
+					transform:rotate(0deg);
+				}
+				to{
+					transform:rotate(360deg);
+				}
+			}
+			
+			@-webkit-keyframes shake{
+				from{
+					transform:rotate(0deg);
+					border:4px dashed #98BF21;
+				}
+				25%{
+					transform:rotate(25deg);
+					border:4px dashed #F8E81C;
+				}
+				50%{
+					transform:rotate(0deg);
+					border:4px dashed #FFF;
+				}
+				75%{
+					transform:rotate(-25deg);
+					border:4px dashed #F8E81C;
+				}
+				to{
+					transform:rotate(0deg);
+					border:4px dashed #98BF21;
+				}
+			}
+			/*兼容Firefox*/
+			@-moz-keyframes car{
+				from{
+					transform:translateX(0px);
+				}
+				50%{
+					transform:translateX(500px);/*车前进*/
+				}
+				80%{
+					transform:translateX(700px);
+				}
+				to{
+					transform:translateX(780px);
+				}
+			}
+			@-moz-keyframes wheels{
+				from{
+					transform:rotate(0deg);
+				}
+				to{
+					transform:rotate(360deg);
+				}
+			}
+			
+			@-moz-keyframes shake{
+				from{
+					transform:rotate(0deg);
+					border:4px dashed #98BF21;
+				}
+				25%{
+					transform:rotate(25deg);
+					border:4px dashed #F8E81C;
+				}
+				50%{
+					transform:rotate(0deg);
+					border:4px dashed #FFF;
+				}
+				75%{
+					transform:rotate(-25deg);
+					border:4px dashed #F8E81C;
+				}
+				to{
+					transform:rotate(0deg);
+					border:4px dashed #98BF21;
+				}
+			}
+			/*调用动画*/
+			#car_body{
+				animation:car 8s ease-in-out 0s infinite alternate;
+				animation-fill-mode:both;
+				-webkit-animation:car 8s ease-in-out 0s infinite alternate;
+				-webkit-animation-fill-mode:both;
+				-moz-animation:car 8s ease-in-out 0s infinite alternate;
+				-moz-animation-fill-mode:both;
+				-ms-animation:car 8s ease-in-out 0s infinite alternate;
+				-ms-animation-fill-mode:both;
+			}
+			#wheel_1,#wheel_2{
+				animation:wheels 8s linear 0s infinite alternate;
+				-webkit-animation:wheels 8s linear 0s infinite alternate;
+				-moz-animation:wheels 8s linear 0s infinite alternate;
+				-ms-animation:wheels 8s linear 0s infinite alternate;
+			}
+			.balloon{
+				animation:balloon 5s ease-in 0s infinite normal;
+				animation-fill-mode:forwards;
+				-webkit-animation:balloon 5s ease-out 0s infinite normal;
+				-webkit-animation-fill-mode:forwards;
+				-moz-animation:balloon 5s ease-out 0s infinite normal;
+				-moz-animation-fill-mode:forwards;
+				-ms-animation:balloon 5s ease-out 0s infinite normal;
+				-ms-animation-fill-mode:forwards;
+			}
+			#wishes{
+				animation:shake 2s linear 0s infinite normal;
+				-webkit-animation:shake 2s linear 0s infinite normal;
+				-moz-animation:shake 2s linear 0s infinite normal;
+				-ms-animation:shake 2s linear 0s infinite normal;
+			}
+		</style>
+		<script type="text/javascript">
+			function animState(btn){
+				var board=document.getElementById("art_board");
+				var anims=board.querySelectorAll("DIV");
+				var len=anims.length;
+				//console.log(len);
+				if(btn.innerHTML=="停一停，让我看看你"){
+					for(var i=0;i<len;i++){
+						anims[i].style.animationPlayState="paused";
+					}
+					btn.innerHTML="很棒，继续吧~";
+				}else{
+					for(var i=0;i<len;i++){
+						anims[i].style.animationPlayState="running";
+					}
+					btn.innerHTML="停一停，让我看看你";
+				}
+			}
+			window.onload=function(){
+				var balloonBox=document.getElementById("balloons");
+				//console.log(balloonBox);
+				var balloons=balloonBox.querySelectorAll(".balloon");
+				var len=balloons.length;
+				//console.log(balloons,len);
+
+				function releaseBalloons(){
+					for(i=0;i<len-1;i++){
+						balloons[i].style.left=Math.random()*1000+"px";
+						//console.log(balloons[i].style.left);
+						balloons[i].style.animationDelay=Math.random()*5+"s";
+						//console.log(balloons[i].style.animationDelay);
+					}
+				}
+				function hideBalloon(){
+					balloons[len-1].style.display="none";
+				}
+				
+				function go(bl,e){
+					releaseBalloons();
+					hideBalloon();
+					setInterval(releaseBalloons,5000);
+				}
+				balloons[len-1].onclick=go;
+			}
+			
+			
+			console.log("Feb.14 2017,by Quinee Young");
+		</script>
+	</head>
+	<body>
+		<article>
+			<canvas id="myCanvas" height="600" width="600"></canvas>
+			<div id="art_board">
+			<button id="btn" onclick="animState(this)">停一停，让我看看你</button>
+			<!--car-->
+			<div id="car_body">
+				<div id="headLight"></div>
+				<div id="wheel_1"></div>
+				<div id="wheel_2"></div>
+				<!--me-->
+				<div id="baymax">
+					<img id="myImg" height="170" width="170">
+				</div>
+			</div>
+			<!--balloon-->
+			<div id="balloons">
+				<div class="balloon">
+					<p>暖<span>^_^</span>心</p>
+				</div>
+				<div class="balloon">
+					<p>宝<span>^_^</span>爸</p>
+				</div>
+				<div class="balloon">
+					<p>感<span>^_^</span>恩</p>
+				</div>
+				<div class="balloon">
+					<p>陪<span>^_^</span>伴</p>
+				</div>
+				<div class="balloon">
+					<p>爱<span>^_^</span>你</p>
+				</div>
+				<div class="balloon">
+					<p>ready?</p>
+				</div>
+			</div>
+			
+			<div id="wishes">
+				<p>dear Luc,</p>
+				<p>Best wishes for you !!</p>
+				<p>Q</p>
+			</div>
+		</div>
+		</article>
+		
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+		//console.log(canvas.width, canvas.height);
+		
+		var rotaD=Math.PI*0.11;
+		var xScale=Math.cos(rotaD);
+		var ySkew=-Math.sin(rotaD);
+		var xSkew=Math.sin(rotaD);
+		var yScale=Math.cos(rotaD);
+		var xTrans=0;
+		var yTrans=50;
+
+		ctx.transform(xScale,ySkew,xSkew,yScale,xTrans,yTrans);
+		ctx.lineJoin="round";
+		ctx.lineCap="round";
+		/*脸蛋*/
+		ctx.lineWidth = 12;
+		ctx.strokeStyle = "#494949";
+		ctx.fillStyle = "#FDFAEB";
+		ctx.transform(1, 0, 0, 0.73, 0, 60);
+		ctx.shadowBlur = 3;
+		ctx.shadowOffsetX = -2;
+		ctx.shadowOffsetY = 8;
+		ctx.shadowColor = "rgba(227,198,190,0.5)";
+		ctx.beginPath();
+		ctx.arc(300, 300, 160, 0, Math.PI * 2, false);
+		ctx.closePath();
+		ctx.fill();
+		ctx.stroke();
+		/*重置模糊效果*/
+		ctx.shadowBlur = 0;
+		ctx.shadowOffsetX = 0;
+		ctx.shadowOffsetY = 0;
+		/*红晕*/
+		ctx.fillStyle = "#F6967C";
+		ctx.beginPath();
+		ctx.arc(200, 325, 16, 0, Math.PI * 2, false);
+		ctx.closePath();
+		ctx.fill();
+		ctx.beginPath();
+		ctx.arc(400, 325, 16, 0, Math.PI * 2, false);
+		ctx.closePath();
+		ctx.fill();
+		/*眼睛*/
+		ctx.setTransform(1, 0, 0, 1, 0, 0);
+		ctx.transform(xScale,ySkew,xSkew,yScale,xTrans,yTrans);
+		ctx.save();
+		ctx.fillStyle = "#000";
+		ctx.beginPath();
+		ctx.arc(230, 255, 25, 0, Math.PI * 2, false);
+		ctx.closePath();
+		ctx.fill();
+		ctx.beginPath();
+		ctx.arc(370, 255, 25, 0, Math.PI * 2, false);
+		ctx.closePath();
+		ctx.fill();
+		/*眼睛连线*/
+		ctx.lineWidth = 3;
+		ctx.strokeStyle = "#000";
+		ctx.beginPath();
+		ctx.moveTo(250, 260)
+		ctx.quadraticCurveTo(295, 299, 345, 260);
+		ctx.stroke();
+		/*身体*/
+		ctx.restore();
+		ctx.fillStyle = "#FDFAEB";
+		ctx.save();
+		ctx.globalCompositeOperation="destination-over";
+		ctx.beginPath();
+		ctx.moveTo(25, 594)
+		ctx.bezierCurveTo(60, 210,545,205,595, 800);
+		ctx.stroke();
+		ctx.fill();
+		ctx.globalCompositeOperation="source-over";
+		/*胸部*/
+		ctx.lineWidth = 2;
+		ctx.beginPath();
+		ctx.moveTo(148, 604)
+		ctx.quadraticCurveTo(300,516,462,594);
+		ctx.stroke();
+		ctx.lineWidth = 4;
+		ctx.transform(1, 0, 0, 0.86, 0, 60);
+		ctx.beginPath();
+		ctx.arc(393, 486, 25, 0, Math.PI * 2, false);
+		ctx.closePath();
+		ctx.stroke();
+		ctx.beginPath();
+		ctx.arc(405, 486, 13, 0, Math.PI * 1.14, true);
+		ctx.stroke();
+		ctx.beginPath();
+		ctx.arc(382, 486, 13, Math.PI, Math.PI * 1.86, false);
+		ctx.stroke();
+		ctx.restore();
+		
+		ctx.setTransform(0.85, 0, 0, 0.85, 60, 90);
+		ctx.lineWidth = 12;
+		/*手掌*/
+		ctx.beginPath();
+		ctx.moveTo(20, 600);
+		ctx.quadraticCurveTo(0, 525, 16, 450);
+		ctx.bezierCurveTo(5,280,75,290,94,430);
+		ctx.bezierCurveTo(75,215,195,210,200,400);
+		ctx.bezierCurveTo(155,195,265,200,280,410);
+		ctx.quadraticCurveTo(300, 510, 280, 600);
+		ctx.fill();
+		ctx.stroke();
+		ctx.beginPath();
+		ctx.moveTo(220,420);
+		ctx.bezierCurveTo(320,230,390,375,276,480);
+		ctx.bezierCurveTo(280,680,0,470,220,420);
+		ctx.closePath();
+		ctx.fill();
+		ctx.stroke();
+		
+		//将canvas的图像赋给img
+		var dataURL=canvas.toDataURL();
+		//console.log(dataURL);
+		var beymax=document.getElementById("myImg");
+		myImg.src=dataURL;
+	</script>
+</html>
