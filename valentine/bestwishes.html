@@ -13,12 +13,6 @@
 				height:650px;
 				border:1px solid #EEE;
 				background-color:#EEE;
-				/*
-				background-image:linear-gradient(#888 0%,#555 100%);
-				background-image:-moz-linear-gradient(#888 0%,#555 100%);
-				background-image:-webkit-linear-gradient(#888 0%,#555 100%);
-				background-image:-ms-linear-gradient(#888 0%,#555 100%);
-				*/
 				border-radius:4px;
 				margin:auto;
 				position:relative;
@@ -228,7 +222,7 @@
 					transform:translateX(0px);
 				}
 				50%{
-					transform:translateX(500px);/*车前进*/
+					transform:translateX(500px);
 				}
 				80%{
 					transform:translateX(700px);
@@ -243,6 +237,40 @@
 				}
 				to{
 					transform:rotate(360deg);
+				}
+			}
+			@-webkit-keyframes balloon{
+				from{
+					transform:translateY(380px) scale(0.5) rotate(0deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					box-shadow:1px 1px 2px 0px #DC5122;
+				}
+				40%{
+					transform:translateY(200px) scale(1.4) rotate(-16deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					box-shadow:1px 1px 2px 1px #DFE532;
+				}
+				75%{
+					transform:translateY(60px) scale(1.8) rotate(10deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					box-shadow:1px 1px 2px 2px #DFE532;
+				}
+				to{
+					transform:translateY(0px) scale(1.2) rotate(18deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					box-shadow:1px 1px 2px 1px #DC5122;
 				}
 			}
 			
@@ -274,7 +302,7 @@
 					transform:translateX(0px);
 				}
 				50%{
-					transform:translateX(500px);/*车前进*/
+					transform:translateX(500px);
 				}
 				80%{
 					transform:translateX(700px);
@@ -291,8 +319,120 @@
 					transform:rotate(360deg);
 				}
 			}
-			
+			@-moz-keyframes balloon{
+				from{
+					transform:translateY(380px) scale(0.5) rotate(0deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					box-shadow:1px 1px 2px 0px #DC5122;
+				}
+				40%{
+					transform:translateY(200px) scale(1.4) rotate(-16deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					box-shadow:1px 1px 2px 1px #DFE532;
+				}
+				75%{
+					transform:translateY(60px) scale(1.8) rotate(10deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					box-shadow:1px 1px 2px 2px #DFE532;
+				}
+				to{
+					transform:translateY(0px) scale(1.2) rotate(18deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					box-shadow:1px 1px 2px 1px #DC5122;
+				}
+			}
 			@-moz-keyframes shake{
+				from{
+					transform:rotate(0deg);
+					border:4px dashed #98BF21;
+				}
+				25%{
+					transform:rotate(25deg);
+					border:4px dashed #F8E81C;
+				}
+				50%{
+					transform:rotate(0deg);
+					border:4px dashed #FFF;
+				}
+				75%{
+					transform:rotate(-25deg);
+					border:4px dashed #F8E81C;
+				}
+				to{
+					transform:rotate(0deg);
+					border:4px dashed #98BF21;
+				}
+			}
+			/*兼容IE*/
+			@-ms-keyframes car{
+				from{
+					transform:translateX(0px);
+				}
+				50%{
+					transform:translateX(500px);
+				}
+				80%{
+					transform:translateX(700px);
+				}
+				to{
+					transform:translateX(780px);
+				}
+			}
+			@-ms-keyframes wheels{
+				from{
+					transform:rotate(0deg);
+				}
+				to{
+					transform:rotate(360deg);
+				}
+			}
+			@-ms-keyframes balloon{
+				from{
+					transform:translateY(380px) scale(0.5) rotate(0deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					box-shadow:1px 1px 2px 0px #DC5122;
+				}
+				40%{
+					transform:translateY(200px) scale(1.4) rotate(-16deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					box-shadow:1px 1px 2px 1px #DFE532;
+				}
+				75%{
+					transform:translateY(60px) scale(1.8) rotate(10deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DFE532 100%);
+					box-shadow:1px 1px 2px 2px #DFE532;
+				}
+				to{
+					transform:translateY(0px) scale(1.2) rotate(18deg);
+					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-moz-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					background-image:-ms-radial-gradient(50px,#EEF 0%,#DC5122 100%);
+					box-shadow:1px 1px 2px 1px #DC5122;
+				}
+			}
+			@-ms-keyframes shake{
 				from{
 					transform:rotate(0deg);
 					border:4px dashed #98BF21;
@@ -538,7 +678,7 @@
 		ctx.stroke();
 		ctx.restore();
 		
-		ctx.setTransform(0.85, 0, 0, 0.85, 60, 90);
+		ctx.setTransform(0.85, 0, 0, 0.85, 20, 90);
 		ctx.lineWidth = 12;
 		/*手掌*/
 		ctx.beginPath();
