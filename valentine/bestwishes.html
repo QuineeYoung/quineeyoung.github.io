@@ -19,6 +19,10 @@
 			}
 			button{
 				cursor:pointer;
+				border:1px solid #98B421;
+				background:#333;
+				border-radius:4px;
+				color:#EEE;
 			}
 			p{
 				font-family:"microsoft yahei";
@@ -160,7 +164,7 @@
 				bottom:5px;
 				right:-6px;
 			}
-			/*车上的人*/
+			/*可爱的大白*/
 			#baymax{
 				width:115px;
 				height:180px;
@@ -191,8 +195,11 @@
 				line-height:100px;
 				transform-origin:43px 100px;
 				cursor:pointer;
+				transition:left 1s ease-out 0s;
+				-webkit-transition:left 1s ease-out 0s;
+				-moz-transition:left 1s ease-out 0s;
+				-ms-transition:left 1s ease-out 0s;
 			}
-			
 			.balloon p span{
 				color:#DFE532;
 				font-weight:bolder;
@@ -562,6 +569,7 @@
 						balloons[i].style.msAnimationPlayState="paused";
 					}
 					window.clearInterval(balloonTimer);
+					balloonTimer=null;
 					state=false;
 					btn.innerHTML="很棒，继续吧~";
 				}else{
@@ -578,14 +586,17 @@
 						balloons[i].style.msAnimationPlayState="running";
 					}
 					state=true;
-					go();
+					balloonTimer=window.setInterval(releaseBalloons,5000);
 					btn.innerHTML="停一停，让我看看你";
 				}
 			}
 			window.onload=function(){	
 				calendar();
 				clockTimer=setInterval(calendar,1000);
+				hideBalloon();
 				balloons[bLen-1].onclick=go;
+				cal.onmouseenter=calPanel;
+				cal.onmouseover=calPanel;
 			}
 			/*author*/
 			console.log("Feb.14 2017,by Quinee Young");
@@ -784,8 +795,8 @@
 		var state=true;
 		/*Calendar*/
 		var hPoint=document.getElementById("hour");
-		var mPoint=document.getElementById("min");
-		var sPoint=document.getElementById("sec");
+		var	mPoint=document.getElementById("min");
+		var	sPoint=document.getElementById("sec");
 		var h,m,s;
 		function calendar(){
 			var now=new Date();
@@ -813,8 +824,9 @@
 		var balloonBox=document.getElementById("balloons");
 		var balloons=balloonBox.querySelectorAll(".balloon");
 		var bLen=balloons.length;
+		
 		function releaseBalloons(){
-			for(i=0;i<bLen-1;i++){
+			for(i=0;i<bLen;i++){
 				balloons[i].style.left=Math.round(Math.random()*1000)+"px";
 				balloons[i].style.animationDelay=Math.round(Math.random()*5)+"s";
 				balloons[i].style.animationDuration=Math.max(Math.round(Math.random()*30),1)+"s";
@@ -834,20 +846,50 @@
 			}
 		}
 		function hideBalloon(){
-			balloons[bLen-1].style.display="none";
+			/*加载时先隐藏前面的ballons*/
+			for(var i=0;i<bLen-1;i++){
+				balloons[i].style.display="none";
+			}
 		}
 		
 		function go(){
+			for(var i=0;i<bLen-1;i++){
+				balloons[i].style.display="block";
+			}
+			balloons[bLen-1].innerHTML="<p>平<span>^_^</span>安</p>";
 			releaseBalloons();
-			hideBalloon();
 			if(state){
 				balloonTimer=window.setInterval(releaseBalloons,5000);
+			}
+		}
+		/*日历面板的区域*/
+		var cal=document.getElementsByClassName("calendar")[0];
+		var calL=cal.offsetLeft;
+		var calWidth=cal.offsetWidth;
+		var calR=calL+calWidth;
+		var calC=calL+calWidth/2;
+		var bw=86;bScaleMax=1.8;
+		var bWidth=Math.ceil(bw*bScaleMax);
+		function calPanel(){
+			if(balloonTimer!=null||state==false){
+				/*获取balloons的位置和大小*/
+				for(var i=0;i<bLen;i++){
+					var ballL=balloons[i].offsetLeft;
+					var ballR=ballL+bWidth;
+					var ballC=ballL+bWidth/2;
+					if(ballL<calR&&ballC>calC){//在日历面板右半区域内，向右移出
+						balloons[i].style.left=calR+Math.round(Math.random()*300)+"px";
+					}else if(ballR>calL&&ballC<calC){//在日历面板左半区域内，向左移出
+						balloons[i].style.left=calL-Math.round(Math.random()*300)+"px";
+					}else{//已在外面，也随机左右移动一下
+						balloons[i].style.left=ballL+Math.round(Math.sin(Math.random()*10)*20)+"px";
+					}
+				}
 			}
 		}
 		/*other animation objects*/
 		var board=document.getElementById("art_board");
 		var anims=board.querySelectorAll("DIV[id^=fm_]");
 		var aLen=anims.length;
-		
 	</script>
 </html>
