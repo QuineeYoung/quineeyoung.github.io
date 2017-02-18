@@ -34,8 +34,8 @@
 			/*日历*/
 			div.calendar{
 				position:absolute;
-				left:120px;
-				top:18px;
+				left:10px;
+				top:30px;
 				width:320px;
 				height:280px;
 				border:8px solid transparent;
@@ -559,6 +559,17 @@
 			}
 		</style>
 		<script type="text/javascript">
+			window.onload=function(){	
+				calendar();
+				clockTimer=setInterval(calendar,1000);
+				hideBalloon();
+				balloons[bLen-1].onclick=go;
+				cal.onmouseenter=calPanel;
+				cal.onmouseover=calPanel;
+			}
+			function pageReload(){
+				window.location.reload();
+			}
 			function animState(btn){
 				if(btn.innerHTML=="停一停，让我看看你"){
 					for(var i=0;i<aLen;i++){
@@ -595,14 +606,7 @@
 					btn.innerHTML="停一停，让我看看你";
 				}
 			}
-			window.onload=function(){	
-				calendar();
-				clockTimer=setInterval(calendar,1000);
-				hideBalloon();
-				balloons[bLen-1].onclick=go;
-				cal.onmouseenter=calPanel;
-				cal.onmouseover=calPanel;
-			}
+			
 			/*author*/
 			console.log("Feb.14 2017,by Quinee Young");
 		</script>
@@ -613,6 +617,7 @@
 			<canvas id="heart" height="41" width="41"></canvas>
 			<div id="art_board">
 			<button id="btn" onclick="animState(this)">停一停，让我看看你</button>
+			<button onclick="pageReload()">开心重播</button>
 			<div class="calendar">
 				<div id="today">
 					<p>岁月无声，今天已是</p>
