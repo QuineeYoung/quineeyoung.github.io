@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<title>暖心宝爸</title>
 		<style type="text/css" rel="stylesheet">
-			canvas#myCanvas{
+			canvas#myCanvas,canvas#heart{
 				background-color:rgba(255,255,255,0);
 				display:none;
 			}
@@ -203,6 +203,11 @@
 			.balloon p span{
 				color:#DFE532;
 				font-weight:bolder;
+			}
+			.balloon img{
+				position:absolute;
+				bottom:-36px;
+				left:23px;
 			}
 			
 			#fm_wishes{
@@ -605,6 +610,7 @@
 	<body>
 		<article>
 			<canvas id="myCanvas" height="600" width="600"></canvas>
+			<canvas id="heart" height="41" width="41"></canvas>
 			<div id="art_board">
 			<button id="btn" onclick="animState(this)">停一停，让我看看你</button>
 			<div class="calendar">
@@ -661,7 +667,7 @@
 					<p>爱<span>^_^</span>你</p>
 				</div>
 				<div class="balloon">
-					<p>ready?</p>
+					<p>ready?</p><img class="himg">
 				</div>
 			</div>
 		</div>
@@ -669,10 +675,9 @@
 		
 	</body>
 	<script type="text/javascript">
+		/*画Beymax*/
 		var canvas = document.getElementById("myCanvas");
 		var ctx = canvas.getContext("2d");
-		//console.log(canvas.width, canvas.height);
-		
 		var rotaD=Math.PI*0.11;
 		var xScale=Math.cos(rotaD);
 		var ySkew=-Math.sin(rotaD);
@@ -680,7 +685,6 @@
 		var yScale=Math.cos(rotaD);
 		var xTrans=0;
 		var yTrans=50;
-
 		ctx.transform(xScale,ySkew,xSkew,yScale,xTrans,yTrans);
 		ctx.lineJoin="round";
 		ctx.lineCap="round";
@@ -782,12 +786,30 @@
 		ctx.closePath();
 		ctx.fill();
 		ctx.stroke();
-		
-		//将canvas的图像赋给img
+		//将canvas的Beymax图像赋给myImg
 		var dataURL=canvas.toDataURL();
-		//console.log(dataURL);
 		var beymax=document.getElementById("myImg");
 		myImg.src=dataURL;
+		//画红心
+		var heart = document.getElementById("heart");
+		var hctx = heart.getContext("2d");
+		hctx.fillStyle="#DC5122";
+		hctx.strokeStyle="#DFE532";
+		hctx.lineWidth=1;
+		hctx.lineJoin="round";
+		hctx.beginPath();
+		hctx.moveTo(21,15);
+		hctx.bezierCurveTo(5,0,-10,20,21,37);
+		hctx.fill();
+		hctx.stroke();
+		hctx.beginPath();
+		hctx.moveTo(21,15);
+		hctx.bezierCurveTo(37,0,52,20,21,37);
+		hctx.fill();
+		hctx.stroke();
+		var hURL=heart.toDataURL();
+		var hImg=document.getElementsByClassName("himg")[0];
+		hImg.src=hURL;
 	</script>
 	<script type="text/javascript">
 		var ua=navigator.userAgent;
@@ -885,6 +907,8 @@
 						balloons[i].style.left=ballL+Math.round(Math.sin(Math.random()*10)*20)+"px";
 					}
 				}
+			}else{
+				balloons[bLen-1].innerHTML="<p>点<span>^_^</span>我</p>";
 			}
 		}
 		/*other animation objects*/
