@@ -908,7 +908,9 @@
 					}
 				}
 			}else{
-				balloons[bLen-1].innerHTML="<p>点<span>^_^</span>我</p>";
+				balloons[bLen-1].innerHTML='<p>点<span>^_^</span>我</p><img class="himg">';
+				hImg=document.getElementsByClassName("himg")[0];
+				hImg.src=hURL;
 			}
 		}
 		/*other animation objects*/
