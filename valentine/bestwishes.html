@@ -783,11 +783,11 @@
 		var balloonTimer=null,clockTimer=null;
 		var state=true;
 		/*Calendar*/
-		var hPoint,mPoint,sPoint,h,m,s;
+		var hPoint=document.getElementById("hour");
+		var mPoint=document.getElementById("min");
+		var sPoint=document.getElementById("sec");
+		var h,m,s;
 		function calendar(){
-			hPoint=document.getElementById("hour");
-			mPoint=document.getElementById("min");
-			sPoint=document.getElementById("sec");
 			var now=new Date();
 			h=now.getHours();
 			m=now.getMinutes();
