@@ -58,6 +58,7 @@
 				top:0px;
 				left:0px;
 				display:none;
+				z-index:10;
 			}
 			#gametips>p{
 				font-size:24px;
@@ -230,7 +231,7 @@
 			#balloons{
 				height:630px;
 			}
-			.balloon{
+			.balloon,#initball{
 				width:86px;
 				height:100px;
 				border-radius:50%;
@@ -246,15 +247,26 @@
 				-webkit-transition:left 1s ease-out 0s;
 				-moz-transition:left 1s ease-out 0s;
 				-ms-transition:left 1s ease-out 0s;
+				z-index:1;
 			}
-			.balloon p span{
+			.balloon p span,#initball p span{
 				color:#DFE532;
 				font-weight:bolder;
+				position:relative;
+				z-index:1;
 			}
-			.balloon img{
+			.balloon p{
+				position:relative;
+				z-index:1;
+			}
+			.balloon img,,#initball img{
 				position:absolute;
 				bottom:-36px;
 				left:23px;
+				z-index:1;
+			}
+			.pballoon{
+				z-index:1000;
 			}
 			#gather{
 				width:130px;
@@ -605,7 +617,7 @@
 				-moz-animation:wheels 8s linear 0s infinite alternate;
 				-ms-animation:wheels 8s linear 0s infinite alternate;
 			}
-			.balloon{
+			.balloon,#initball{
 				animation:balloon 5s ease-in 0s infinite normal;
 				animation-fill-mode:forwards;
 				-webkit-animation:balloon 5s ease-out 0s infinite normal;
@@ -627,7 +639,7 @@
 				calendar();
 				clockTimer=setInterval(calendar,1000);
 				hideBalloon();
-				balloons[bLen-1].onclick=go;
+				initBall.onclick=go;
 				cal.onmouseenter=calPanel;
 				cal.onmouseover=calPanel;
 				gameBtn.onclick=setGame;//游戏开始结束监听
@@ -668,7 +680,7 @@
 						balloons[i].style.msAnimationPlayState="running";
 					}
 					state=true;
-					balloonTimer=window.setInterval(releaseBalloons,3000);
+					balloonTimer=window.setInterval(releaseBalloons,5000);
 					btn.innerHTML="停一停，让我看看你";
 				}
 			}
@@ -726,9 +738,7 @@
 			function gameCatch(){
 				var e=window.event||arguments[0];
 				var target=e.srcElement||e.target;
-				if(state&&game&&target.tagName=="IMG"){//须在游戏动态进行时点到红心才有效
-					//气球进入收纳箱
-					target.parentElement.style.left="-100px";
+				if(state&&game&&target.className=="pballoon"){//须在游戏动态进行时点到红心才有效
 					//计分
 					getN++;
 					if(totalN==0){
@@ -738,12 +748,19 @@
 					}
 					getD.innerHTML=getN;
 					scoreD.innerHTML=Math.floor(scoreN*100);
+					//气球进入收纳箱
+					if(target.tagName=="SPAN"){
+						target.parentElement.parentElement.style.left="-100px";
+					}else if(target.tagName=="IMG"||target.tagName=="P"){
+						console.log(target.tagName,target.parentElement,target.innerHTML);
+						target.parentElement.style.left="-100px";
+					}
 				}
 			}
 			function gametip(){
 				gtip.style.display="block";
 				if(game){
-					gtext.innerHTML="游戏马上开始，记住：抓住红心！";
+					gtext.innerHTML="游戏马上开始，记住：抓住红心气球！";
 					tipTimer=setTimeout(closetip,2000);
 				}else if(!game&&!gameBreak&&scoreN>=0.5){
 					gtext.innerHTML="你的得分:"+Math.floor(scoreN*100)+"^_^ 闯关成功！是否进入下一级？";
@@ -854,7 +871,7 @@
 				<div class="balloon">
 					<p>爱<span>^_^</span>你</p>
 				</div>
-				<div class="balloon">
+				<div id="initball">
 					<p>ready?</p><img class="himg">
 				</div>
 			</div>
@@ -1040,20 +1057,20 @@
 		var balloonBox=document.getElementById("balloons");
 		var balloons=balloonBox.querySelectorAll(".balloon");
 		var bLen=balloons.length;
-		
+		var initBall=document.getElementById("initball");
 		function releaseBalloons(){
 			for(var i=0;i<bLen;i++){
-				var lf=Math.round(Math.random()*1000);
+				var lf=Math.max(Math.round(Math.random()*870),230);
 				balloons[i].style.left=lf+"px";
 				balloons[i].style.animationDelay=Math.round(Math.random()*5)+"s";
-				balloons[i].style.animationDuration=Math.max(Math.round(Math.random()*30),1)+"s";
+				balloons[i].style.animationDuration=Math.max(Math.round(Math.random()*5),3)+"s";
 				//兼容代码
 				balloons[i].style.webkitAnimationDelay=Math.round(Math.random()*5)+"s";
-				balloons[i].style.webkitAnimationDuration=Math.max(Math.round(Math.random()*30),1)+"s";
+				balloons[i].style.webkitAnimationDuration=Math.max(Math.round(Math.random()*5),3)+"s";
 				balloons[i].style.mozAnimationDelay=Math.round(Math.random()*5)+"s";
-				balloons[i].style.mozAnimationDuration=Math.max(Math.round(Math.random()*30),1)+"s";
+				balloons[i].style.mozAnimationDuration=Math.max(Math.round(Math.random()*5),3)+"s";
 				balloons[i].style.msAnimationDelay=Math.round(Math.random()*5)+"s";
-				balloons[i].style.msAnimationDuration=Math.max(Math.round(Math.random()*30),1)+"s";
+				balloons[i].style.msAnimationDuration=Math.max(Math.round(Math.random()*5),3)+"s";
 				/*对IE/Edge/Safari的特殊处理*/
 				if((ua.indexOf("MSIE")!=-1)||
 					(ua.indexOf("Trident")!=-1)||
@@ -1066,28 +1083,34 @@
 					hImg=balloons[i].querySelector("IMG");
 					hImg.src=hURL;
 					totalN++;
+					//console.log(totalN);
 					scoreN=getN/totalN;
 					scoreD.innerHTML=Math.floor(scoreN*100);
+					balloons[i].querySelector("P").className="pballoon";
+					balloons[i].querySelector("SPAN").className="pballoon";
+					hImg.className="pballoon";
 				}else if(!game||lf%diff){
 					balloons[i].innerHTML=balloons[i].innerHTML.split("<img",1);
+					balloons[i].querySelector("P").className="";
+					balloons[i].querySelector("SPAN").className="";
 				}
 			}
 		}
 		function hideBalloon(){
 			/*加载时先隐藏前面的ballons*/
-			for(var i=0;i<bLen-1;i++){
+			for(var i=0;i<bLen;i++){
 				balloons[i].style.display="none";
 			}
 		}
 		
 		function go(){
-			for(var i=0;i<bLen-1;i++){
+			for(var i=0;i<bLen;i++){
 				balloons[i].style.display="block";
 			}
-			balloons[bLen-1].innerHTML="<p>平<span>^_^</span>安</p>";
+			initBall.style.display="none";
 			releaseBalloons();
 			if(state){
-				balloonTimer=window.setInterval(releaseBalloons,3000);
+				balloonTimer=window.setInterval(releaseBalloons,5000);
 			}
 		}
 		/*日历面板的区域*/
@@ -1114,7 +1137,7 @@
 					}
 				}
 			}else{
-				balloons[bLen-1].innerHTML='<p>点<span>^_^</span>我</p><img class="himg">';
+				initBall.innerHTML='<p>点<span>^_^</span>我</p><img class="himg">';
 				hImg=document.getElementsByClassName("himg")[0];
 				hImg.src=hURL;
 			}
