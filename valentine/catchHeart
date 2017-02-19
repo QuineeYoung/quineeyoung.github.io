@@ -60,12 +60,20 @@
 				display:none;
 			}
 			#gametips>p{
-				font-size:36px;
+				font-size:24px;
 				color:#FFF;
 				margin:auto;
 				height:500px;
 				line-height:500px;
 				text-align:center;
+			}
+			#gametips button{
+				display:none;
+				width:120px;
+				height:40px;
+				background:#111;
+				border-radius:4px;
+				margin:16px auto;
 			}
 			/*日历*/
 			div.calendar{
@@ -660,46 +668,39 @@
 						balloons[i].style.msAnimationPlayState="running";
 					}
 					state=true;
-					balloonTimer=window.setInterval(releaseBalloons,5000);
+					balloonTimer=window.setInterval(releaseBalloons,3000);
 					btn.innerHTML="停一停，让我看看你";
 				}
 			}
 			function setGame(){
 				if(game){
+					gameBreak=true;
 					gameOver();
 				}else{
 					startGame();
 				}
 			}
 			function startGame(){
+				game=true;
+				gameBreak=false;
 				//改变按钮内容（停止）和背景颜色
 				gameBtn.innerHTML="结束游戏";
 				gameBtn.style.background="#DFE532";
 				//重置分数，呈现计分窗口
-				btext.innerHTML=btext.innerHTML.split("</span>",3);
 				getN=0,missN=0,scoreN=0,totalN=0;
 				getD.innerHTML=getN;
 				scoreD.innerHTML=scoreN;
+				var degree=6-diff;//游戏级别
 				dg.innerHTML=degree;
 				gameBox.style.display="block";
 				//呈现收集框
 				ballBox.style.display="block";
-				game=true;
 				//弹出游戏提示
 				gametip();
 				//设置游戏结束定时器
 				gameTimer=setTimeout(gameOver,60000);
 			}
 			function gameOver(){
-				//修改游戏状态
-				game=false;
-				//弹出游戏提示
-				gametip();
-				//隐藏收纳箱
-				ballBox.style.display="none";
-				//改变按钮内容
-				gameBtn.innerHTML="开始游戏";
-				gameBtn.style.background="#000";
 				//计算分数
 				if(totalN==0){
 					scoreN=0;
@@ -708,46 +709,78 @@
 				}
 				missN=totalN-getN;
 				getD.innerHTML=getN;
-				scoreD.innerHTML=Math.round(scoreN*100)+"!!&nbsp;&nbsp;你错失了Q的"+missN+"个真心";
+				scoreD.innerHTML=Math.floor(scoreN*100)+"&nbsp;&nbsp;你错失了Q的"+missN+"个真心";
+				//修改游戏状态
+				game=false;
+				//隐藏收纳箱
+				ballBox.style.display="none";
+				//改变按钮内容
+				gameBtn.innerHTML="开始游戏";
+				gameBtn.style.background="#000";
 				//清除定时器
 				clearTimeout(gameTimer);
 				gameTimer=null;
-				releaseBalloons();
+				//弹出游戏提示
+				gametip();
 			}
 			function gameCatch(){
 				var e=window.event||arguments[0];
 				var target=e.srcElement||e.target;
-				//console.log(e,target);
-				if(game){//须在游戏进行时才有效
-					for(var i=0;i<bLen;i++){
-						if(target==balloons[i].querySelector("IMG")){
-							//气球进入收纳箱
-							balloons[i].style.left="-100px";
-							balloons[i].style.transform="tranlateY(380px)";
-							//计分
-							getN++;
-							scoreN=getN/totalN;
-							getD.innerHTML=getN;
-							scoreD.innerHTML=Math.round(scoreN*100);
-						}
+				if(state&&game&&target.tagName=="IMG"){//须在游戏动态进行时点到红心才有效
+					//气球进入收纳箱
+					target.parentElement.style.left="-100px";
+					//计分
+					getN++;
+					if(totalN==0){
+						scoreN=0;
+					}else{
+						scoreN=getN/totalN;
 					}
+					getD.innerHTML=getN;
+					scoreD.innerHTML=Math.floor(scoreN*100);
 				}
 			}
 			function gametip(){
+				gtip.style.display="block";
 				if(game){
 					gtext.innerHTML="游戏马上开始，记住：抓住红心！";
-					
+					tipTimer=setTimeout(closetip,2000);
+				}else if(!game&&!gameBreak&&scoreN>=0.5){
+					gtext.innerHTML="你的得分:"+Math.floor(scoreN*100)+"^_^ 闯关成功！是否进入下一级？";
+					btns[0].style.display="block";
+					btns[1].style.display="block";
+					btns[0].onclick=shutup;
+					btns[1].onclick=upGrade;
 				}else{
 					gtext.innerHTML="游戏结束！";
+					tipTimer=setTimeout(closetip,2000);
 				}
-				gtip.style.display="block";
-				tipTimer=setTimeout(closetip,1000);
 			}
 			function closetip(){
 				gtip.style.display="none";
 				tipTimer=null;
 			}
-			
+			function upGrade(){
+				if(diff>2){
+					diff--;
+					for(var i=0;i<btns.length;i++){
+						btns[i].style.display="none";
+					}
+					gtip.style.display="none";
+					startGame();
+				}else{
+					gtext.innerHTML="呃~你已是最高级^_^恭喜你成功俘获Q的心";
+					btns[1].style.display="none";
+					btns[0].innerHTML="关闭灰幕";
+				}
+				
+			}
+			function shutup(){
+				gtip.style.display="none";
+				for(var i=0;i<btns.length;i++){
+					btns[i].style.display="none";
+				}
+			}
 			/*author*/
 			console.log("Feb.14 2017,by Quinee Young");
 		</script>
@@ -762,7 +795,7 @@
 			<button id="gamebtn">开始游戏</button>
 			<div id="gameBox">
 				<p>难度级别:<span id="degree"></span>&nbsp;&nbsp;已抓住<span id="getCount"></span>个心&nbsp;&nbsp;
-					得分<span id="score"></span>
+					得分:<span id="score"></span>
 				</p>
 			</div>
 			<div id="gather">
@@ -827,6 +860,8 @@
 			</div>
 			<div id="gametips">
 				<p></p>
+				<button onclick="shutup()">不，玩够了</button>
+				<button onclick="upgrade()">好，走起！</button>
 			</div>
 		</div>
 		</article>
@@ -973,7 +1008,7 @@
 		var ua=navigator.userAgent;
 		var balloonTimer=null,clockTimer=null,gameTimer=null,tipTimer=null;;
 		var state=true;
-		var game=false;
+		
 		/*Calendar*/
 		var hPoint=document.getElementById("hour");
 		var	mPoint=document.getElementById("min");
@@ -1007,7 +1042,7 @@
 		var bLen=balloons.length;
 		
 		function releaseBalloons(){
-			for(i=0;i<bLen;i++){
+			for(var i=0;i<bLen;i++){
 				var lf=Math.round(Math.random()*1000);
 				balloons[i].style.left=lf+"px";
 				balloons[i].style.animationDelay=Math.round(Math.random()*5)+"s";
@@ -1024,13 +1059,15 @@
 					(ua.indexOf("Trident")!=-1)||
 					(ua.indexOf("Edge")!=-1)||
 					(ua.indexOf("Safari")!=-1&&ua.indexOf("Chrome")==-1)){
-					balloons[i].style.top=Math.round(Math.random()*(1000))+"px";
+					balloons[i].style.top=Math.round(Math.random()*(500))+"px";
 				}
 				if(game&&(lf%diff==0)){
 					balloons[i].innerHTML=balloons[i].innerHTML+'<img class="himg">';
 					hImg=balloons[i].querySelector("IMG");
 					hImg.src=hURL;
 					totalN++;
+					scoreN=getN/totalN;
+					scoreD.innerHTML=Math.floor(scoreN*100);
 				}else if(!game||lf%diff){
 					balloons[i].innerHTML=balloons[i].innerHTML.split("<img",1);
 				}
@@ -1050,7 +1087,7 @@
 			balloons[bLen-1].innerHTML="<p>平<span>^_^</span>安</p>";
 			releaseBalloons();
 			if(state){
-				balloonTimer=window.setInterval(releaseBalloons,5000);
+				balloonTimer=window.setInterval(releaseBalloons,3000);
 			}
 		}
 		/*日历面板的区域*/
@@ -1087,6 +1124,7 @@
 		var anims=board.querySelectorAll("DIV[id^=fm_]");
 		var aLen=anims.length;
 		/*game*/
+		var game=false;
 		var gameBtn=document.getElementById("gamebtn");
 		var ballBox=document.getElementById("gather");
 		var gameBox=document.getElementById("gameBox");
@@ -1097,7 +1135,8 @@
 		var getN,scoreN,totalN,missN;
 		var gtip=document.getElementById("gametips");
 		var gtext=gtip.querySelector("P");
-		var diff=5;//难度系数2~5，数字越大越容易
-		var degree=6-diff;//游戏级别，1~4级
+		var btns=gtip.querySelectorAll("BUTTON");
+		var diff=5;//难度系数2~9，数字越大越容易
+		var gameBreak=false;//是否人为中断游戏
 	</script>
 </html>
