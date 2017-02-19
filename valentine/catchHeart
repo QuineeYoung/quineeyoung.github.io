@@ -680,7 +680,7 @@
 						balloons[i].style.msAnimationPlayState="running";
 					}
 					state=true;
-					balloonTimer=window.setInterval(releaseBalloons,5000);
+					balloonTimer=window.setInterval(releaseBalloons,interTime);
 					btn.innerHTML="停一停，让我看看你";
 				}
 			}
@@ -711,6 +711,8 @@
 				gametip();
 				//设置游戏结束定时器
 				gameTimer=setTimeout(gameOver,60000);
+				//重设气球随机定时器
+				balloonTimer=window.setInterval(releaseBalloons,interTime);
 			}
 			function gameOver(){
 				//计算分数
@@ -752,7 +754,6 @@
 					if(target.tagName=="SPAN"){
 						target.parentElement.parentElement.style.left="-100px";
 					}else if(target.tagName=="IMG"||target.tagName=="P"){
-						console.log(target.tagName,target.parentElement,target.innerHTML);
 						target.parentElement.style.left="-100px";
 					}
 				}
@@ -780,6 +781,8 @@
 			function upGrade(){
 				if(diff>2){
 					diff--;
+					duraTime--;
+					interTime=interTime-1000;
 					for(var i=0;i<btns.length;i++){
 						btns[i].style.display="none";
 					}
@@ -1062,15 +1065,15 @@
 			for(var i=0;i<bLen;i++){
 				var lf=Math.max(Math.round(Math.random()*870),230);
 				balloons[i].style.left=lf+"px";
-				balloons[i].style.animationDelay=Math.round(Math.random()*5)+"s";
-				balloons[i].style.animationDuration=Math.max(Math.round(Math.random()*5),3)+"s";
+				balloons[i].style.animationDelay=Math.round(Math.random()*duraTime)+"s";
+				balloons[i].style.animationDuration=Math.max(Math.round(Math.random()*duraTime),3)+"s";
 				//兼容代码
-				balloons[i].style.webkitAnimationDelay=Math.round(Math.random()*5)+"s";
-				balloons[i].style.webkitAnimationDuration=Math.max(Math.round(Math.random()*5),3)+"s";
-				balloons[i].style.mozAnimationDelay=Math.round(Math.random()*5)+"s";
-				balloons[i].style.mozAnimationDuration=Math.max(Math.round(Math.random()*5),3)+"s";
-				balloons[i].style.msAnimationDelay=Math.round(Math.random()*5)+"s";
-				balloons[i].style.msAnimationDuration=Math.max(Math.round(Math.random()*5),3)+"s";
+				balloons[i].style.webkitAnimationDelay=Math.round(Math.random()*duraTime)+"s";
+				balloons[i].style.webkitAnimationDuration=Math.max(Math.round(Math.random()*duraTime),3)+"s";
+				balloons[i].style.mozAnimationDelay=Math.round(Math.random()*duraTime)+"s";
+				balloons[i].style.mozAnimationDuration=Math.max(Math.round(Math.random()*duraTime),3)+"s";
+				balloons[i].style.msAnimationDelay=Math.round(Math.random()*duraTime)+"s";
+				balloons[i].style.msAnimationDuration=Math.max(Math.round(Math.random()*duraTime),3)+"s";
 				/*对IE/Edge/Safari的特殊处理*/
 				if((ua.indexOf("MSIE")!=-1)||
 					(ua.indexOf("Trident")!=-1)||
@@ -1160,6 +1163,7 @@
 		var gtext=gtip.querySelector("P");
 		var btns=gtip.querySelectorAll("BUTTON");
 		var diff=5;//难度系数2~9，数字越大越容易
+		var duraTime=5,interTime=5000;
 		var gameBreak=false;//是否人为中断游戏
 	</script>
 </html>
