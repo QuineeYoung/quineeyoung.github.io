@@ -23,6 +23,8 @@
 				background:#333;
 				border-radius:4px;
 				color:#EEE;
+				float:left;
+				margin-right:5px;
 			}
 			p{
 				font-family:"microsoft yahei";
@@ -33,9 +35,8 @@
 			}
 			/*游戏计分*/
 			#gameBox{
-				position:absolute;
-				top:0px;
-				left:280px;
+				float:left;
+				margin-left:5px;
 				height:15px;
 				padding:3px 10px 2px;
 				background:#333;
@@ -70,6 +71,7 @@
 			}
 			#gametips button{
 				display:none;
+				float:none;
 				width:120px;
 				height:40px;
 				background:#111;
@@ -81,7 +83,7 @@
 				position:absolute;
 				left:10px;
 				top:30px;
-				width:320px;
+				width:340px;
 				height:280px;
 				border:8px solid transparent;
 				border-radius:28px;
@@ -108,7 +110,7 @@
 			}
 			#t12{
 				top:36px;
-				left:151px;
+				left:161px;
 			}
 			#t03{
 				top:131px;
@@ -116,7 +118,7 @@
 			}
 			#t06{
 				bottom:36px;
-				right:151px;
+				right:161px;
 			}
 			#t09{
 				top:131px;
@@ -143,7 +145,7 @@
 				background-color:#883F03;
 				position:absolute;
 				top:104px;
-				left:153px;
+				left:163px;
 				border-radius:5px;
 				transform-origin:7px 36px;
 			}
@@ -153,7 +155,7 @@
 				background-color:#98BF21;
 				position:absolute;
 				top:90px;
-				left:155px;
+				left:165px;
 				border-radius:5px;
 				transform-origin:5px 50px;
 			}
@@ -163,7 +165,7 @@
 				background-color:#FFE545;
 				position:absolute;
 				top:60px;
-				left:157px;
+				left:167px;
 				border-radius:3px;
 				transform-origin:3px 80px;
 			}
@@ -253,10 +255,12 @@
 				color:#DFE532;
 				font-weight:bolder;
 				position:relative;
+				cursor:pointer;
 				z-index:1;
 			}
 			.balloon p{
 				position:relative;
+				cursor:pointer;
 				z-index:1;
 			}
 			.balloon img,,#initball img{
@@ -264,6 +268,7 @@
 				bottom:-36px;
 				left:23px;
 				z-index:1;
+				cursor:pointer;
 			}
 			.pballoon{
 				z-index:1000;
@@ -332,7 +337,7 @@
 			}
 			@keyframes balloon{
 				from{
-					transform:translateY(380px) scale(0.5) rotate(0deg);
+					transform:translateY(480px) scale(0.5) rotate(0deg);
 					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
 					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DC5122 100%);
 					background-image:-moz-radial-gradient(50px,#EEF 0%,#DC5122 100%);
@@ -411,7 +416,7 @@
 			}
 			@-webkit-keyframes balloon{
 				from{
-					transform:translateY(380px) scale(0.5) rotate(0deg);
+					transform:translateY(480px) scale(0.5) rotate(0deg);
 					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
 					background-image:-webkit-radial-gradient(50px,#EEF 0%,#DC5122 100%);
 					box-shadow:1px 1px 2px 0px #DC5122;
@@ -483,7 +488,7 @@
 			}
 			@-moz-keyframes balloon{
 				from{
-					transform:translateY(380px) scale(0.5) rotate(0deg);
+					transform:translateY(480px) scale(0.5) rotate(0deg);
 					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
 					background-image:-moz-radial-gradient(50px,#EEF 0%,#DC5122 100%);
 					box-shadow:1px 1px 2px 0px #DC5122;
@@ -554,7 +559,7 @@
 			}
 			@-ms-keyframes balloon{
 				from{
-					transform:translateY(380px) scale(0.5) rotate(0deg);
+					transform:translateY(480px) scale(0.5) rotate(0deg);
 					background-image:radial-gradient(50px,#EEF 0%,#DC5122 100%);
 					background-image:-ms-radial-gradient(50px,#EEF 0%,#DC5122 100%);
 					box-shadow:1px 1px 2px 0px #DC5122;
@@ -680,7 +685,7 @@
 						balloons[i].style.msAnimationPlayState="running";
 					}
 					state=true;
-					balloonTimer=window.setInterval(releaseBalloons,interTime);
+					balloonTimer=window.setInterval(releaseBalloons,5000);
 					btn.innerHTML="停一停，让我看看你";
 				}
 			}
@@ -711,8 +716,6 @@
 				gametip();
 				//设置游戏结束定时器
 				gameTimer=setTimeout(gameOver,60000);
-				//重设气球随机定时器
-				balloonTimer=window.setInterval(releaseBalloons,interTime);
 			}
 			function gameOver(){
 				//计算分数
@@ -754,6 +757,7 @@
 					if(target.tagName=="SPAN"){
 						target.parentElement.parentElement.style.left="-100px";
 					}else if(target.tagName=="IMG"||target.tagName=="P"){
+						console.log(target.tagName,target.parentElement,target.innerHTML);
 						target.parentElement.style.left="-100px";
 					}
 				}
@@ -781,8 +785,6 @@
 			function upGrade(){
 				if(diff>2){
 					diff--;
-					duraTime--;
-					interTime=interTime-1000;
 					for(var i=0;i<btns.length;i++){
 						btns[i].style.display="none";
 					}
@@ -1065,15 +1067,15 @@
 			for(var i=0;i<bLen;i++){
 				var lf=Math.max(Math.round(Math.random()*870),230);
 				balloons[i].style.left=lf+"px";
-				balloons[i].style.animationDelay=Math.round(Math.random()*duraTime)+"s";
-				balloons[i].style.animationDuration=Math.max(Math.round(Math.random()*duraTime),3)+"s";
+				balloons[i].style.animationDelay=Math.round(Math.random()*5)+"s";
+				balloons[i].style.animationDuration=Math.max(Math.round(Math.random()*5),3)+"s";
 				//兼容代码
-				balloons[i].style.webkitAnimationDelay=Math.round(Math.random()*duraTime)+"s";
-				balloons[i].style.webkitAnimationDuration=Math.max(Math.round(Math.random()*duraTime),3)+"s";
-				balloons[i].style.mozAnimationDelay=Math.round(Math.random()*duraTime)+"s";
-				balloons[i].style.mozAnimationDuration=Math.max(Math.round(Math.random()*duraTime),3)+"s";
-				balloons[i].style.msAnimationDelay=Math.round(Math.random()*duraTime)+"s";
-				balloons[i].style.msAnimationDuration=Math.max(Math.round(Math.random()*duraTime),3)+"s";
+				balloons[i].style.webkitAnimationDelay=Math.round(Math.random()*5)+"s";
+				balloons[i].style.webkitAnimationDuration=Math.max(Math.round(Math.random()*5),3)+"s";
+				balloons[i].style.mozAnimationDelay=Math.round(Math.random()*5)+"s";
+				balloons[i].style.mozAnimationDuration=Math.max(Math.round(Math.random()*5),3)+"s";
+				balloons[i].style.msAnimationDelay=Math.round(Math.random()*5)+"s";
+				balloons[i].style.msAnimationDuration=Math.max(Math.round(Math.random()*5),3)+"s";
 				/*对IE/Edge/Safari的特殊处理*/
 				if((ua.indexOf("MSIE")!=-1)||
 					(ua.indexOf("Trident")!=-1)||
@@ -1162,8 +1164,7 @@
 		var gtip=document.getElementById("gametips");
 		var gtext=gtip.querySelector("P");
 		var btns=gtip.querySelectorAll("BUTTON");
-		var diff=5;//难度系数2~9，数字越大越容易
-		var duraTime=5,interTime=5000;
+		var diff=5;//难度系数2~5，数字越大越容易
 		var gameBreak=false;//是否人为中断游戏
 	</script>
 </html>
