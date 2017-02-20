@@ -29,4 +29,12 @@
 
 ### 测试过程遇到的问题
 
-有个问题是Q不知其所以然的：某个元素的父元素竟然为null，而这点导致定时器setInterval异常触发！这是为什么？
+有个问题是Q不知其所以然的：某个元素的父元素竟然为null，而这点导致定时器setInterval调用的函数不停异常触发！这是为什么？
+
+### 文件说明
+
+正如前文所说，valentine文件夹下的每个HTML文件都是独立的。其中 canvas_hello_Baymax.html 是绘制Baymax；bestwishes.html 是一个小动画，使用了 Baymax 图像，即包含了前面的代码；而 catchHeart是在小动画基础上加了游戏相关的代码。
+
+***
+
+_我的第一个程序，也是送给Mr.X的礼物，写在我们的第一个baby出生前几周。_
