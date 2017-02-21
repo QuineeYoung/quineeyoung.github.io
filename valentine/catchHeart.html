@@ -724,7 +724,7 @@
 				}else{
 					scoreN=getN/totalN;
 				}
-				missN=totalN-getN;
+				missN=Math.max(totalN-getN,0);
 				getD.innerHTML=getN;
 				scoreD.innerHTML=Math.floor(scoreN*100)+"&nbsp;&nbsp;你错失了Q的"+missN+"个真心";
 				//修改游戏状态
