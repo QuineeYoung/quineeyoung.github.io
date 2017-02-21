@@ -667,6 +667,9 @@
 						balloons[i].style.mozAnimationPlayState="paused";
 						balloons[i].style.msAnimationPlayState="paused";
 					}
+					initBall.style.animationPlayState="paused";
+					initBall.style.webkitAnimationPlayState="paused";
+					initBall.style.mozAnimationPlayState="paused";
 					initBall.style.msAnimationPlayState="paused";
 					window.clearInterval(balloonTimer);
 					balloonTimer=null;
@@ -685,6 +688,9 @@
 						balloons[i].style.mozAnimationPlayState="running";
 						balloons[i].style.msAnimationPlayState="running";
 					}
+					initBall.style.animationPlayState="running";
+					initBall.style.webkitAnimationPlayState="running";
+					initBall.style.mozAnimationPlayState="running";
 					initBall.style.msAnimationPlayState="running";
 					state=true;
 					balloonTimer=window.setInterval(releaseBalloons,5000);
