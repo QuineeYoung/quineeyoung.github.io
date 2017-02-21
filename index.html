@@ -667,6 +667,7 @@
 						balloons[i].style.mozAnimationPlayState="paused";
 						balloons[i].style.msAnimationPlayState="paused";
 					}
+					initBall.style.msAnimationPlayState="paused";
 					window.clearInterval(balloonTimer);
 					balloonTimer=null;
 					state=false;
@@ -684,6 +685,7 @@
 						balloons[i].style.mozAnimationPlayState="running";
 						balloons[i].style.msAnimationPlayState="running";
 					}
+					initBall.style.msAnimationPlayState="running";
 					state=true;
 					balloonTimer=window.setInterval(releaseBalloons,5000);
 					btn.innerHTML="停一停，让我看看你";
@@ -1164,7 +1166,7 @@
 		var gtip=document.getElementById("gametips");
 		var gtext=gtip.querySelector("P");
 		var btns=gtip.querySelectorAll("BUTTON");
-		var diff=5;//难度系数2~9，数字越大越容易
+		var diff=5;//难度系数2~5，数字越大越容易
 		var gameBreak=false;//是否人为中断游戏
 	</script>
 </html>
